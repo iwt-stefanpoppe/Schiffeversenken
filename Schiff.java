@@ -8,32 +8,41 @@ public class Schiff {
     private String name;
     private int treffer = 0;
     private boolean überWasser = true;
+    Helfer helfer = new Helfer();
+
     public boolean prüfDich(String spielerTipp) {
 
-        int spielerTippInt = Integer.parseInt(spielerTipp);
+        int spielerTippInt = 0;
 
-        boolean getroffen = false ;
-        if (spielerTippInt > 6 || spielerTippInt < 0) {
-            System.out.println("Nur Tipps zwischen 0 und 6 sind erlaubt!");
+        spielerTipp = helfer.eingabenAuswerter(spielerTipp);
+        spielerTippInt = Integer.parseInt(spielerTipp);
+        if (spielerTippInt < 0 || spielerTippInt > 49) {
+            System.out.println("Bitte geben sie eine Kombination aus Buchstabe von A-G und Zahl von 0-6 ein! (z.B C6)");
         }
+
+
+        boolean getroffen = false;
 
 
         if (cellLocation.contains(spielerTipp)) {
             int indexDesTreffers = cellLocation.indexOf(spielerTipp);
             cellLocation.remove(indexDesTreffers);
-            String ergebnis = !(cellLocation.isEmpty()) ? "Treffer auf der " + name +"!" : "Die " + name +" wurde versenkt!";
+            String ergebnis = !(cellLocation.isEmpty()) ? "Treffer auf der " + name + "!" : "Die " + name + " wurde versenkt!";
             treffer++;
-            if (treffer==3){überWasser=false;}
+            if (treffer == 3) {
+                überWasser = false;
+            }
             System.out.println(ergebnis);
-            getroffen=true;
+            getroffen = true;
         }
         return getroffen;
+
     }
 
     public Schiff(String name) {
         this.name = name;
 
-        int initial = (int) (Math.random() * 5);
+        int initial = (int) (Math.random() * 47);
         for (int i = 0; i < Spiel.SPIELVORBEI; i++) {
             String stringInitial = "" + initial;
             cellLocation.add(stringInitial);

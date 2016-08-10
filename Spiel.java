@@ -10,7 +10,7 @@ public class Spiel {
     public static final int SPIELVORBEI = 3;
 
     public static void Schiffeversenken() {
-        System.out.println("Versenken sie das Schiff! Es liegt irgendwo zwischen Position 0 und 6 \n");
+        System.out.println("Versenken sie das Schiff! Es liegt irgendwo im Raster zwischen A0 und G6 \n");
 
 
         ArrayList<Schiff> schiffListe = new ArrayList<>();
@@ -20,18 +20,25 @@ public class Spiel {
         schiffListe.add(weser);
         schiffListe.add(black);
         schiffListe.add(gorch);
-
+        Helfer helfer = new Helfer();
 
         int zähler = 0;
 
         boolean getroffen;
 
         while (!schiffListe.isEmpty()) {
-            String benutzerEingabe = JOptionPane.showInputDialog("Auf welche Stelle wollen sie schießen?");
+            String spielerTipp = JOptionPane.showInputDialog("Auf welche Stelle wollen sie schießen?");
+            spielerTipp = helfer.eingabenAuswerter(spielerTipp);
+            int spielerTippInt = Integer.parseInt(spielerTipp);
+            if (spielerTippInt < 0 || spielerTippInt > 49) {
+                System.out.println("Bitte geben sie eine Kombination aus Buchstabe von A-G und Zahl von 0-6 ein! (z.B C6)");
+                continue;
+            }
+
             int trefferZähler = 0;
             for(int i =0;i<schiffListe.size();i++) {
 
-                getroffen = schiffListe.get(i).prüfDich(benutzerEingabe);
+                getroffen = schiffListe.get(i).prüfDich(spielerTipp);
                 if(getroffen){trefferZähler++;}
                 if (!schiffListe.get(i).isÜberWasser()){
                     schiffListe.remove(i);

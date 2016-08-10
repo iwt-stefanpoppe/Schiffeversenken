@@ -8,18 +8,11 @@ public class Schiff {
     private String name;
     private int treffer = 0;
     private boolean überWasser = true;
-    Helfer helfer = new Helfer();
+    private boolean waagerecht = true;
 
     public boolean prüfDich(String spielerTipp) {
 
         int spielerTippInt = 0;
-
-        spielerTipp = helfer.eingabenAuswerter(spielerTipp);
-        spielerTippInt = Integer.parseInt(spielerTipp);
-        if (spielerTippInt < 0 || spielerTippInt > 49) {
-            System.out.println("Bitte geben sie eine Kombination aus Buchstabe von A-G und Zahl von 0-6 ein! (z.B C6)");
-        }
-
 
         boolean getroffen = false;
 
@@ -41,12 +34,25 @@ public class Schiff {
 
     public Schiff(String name) {
         this.name = name;
+        int initial=0;
+        do{initial = (int) (Math.random() * 47);}while (initial ==40||initial==41);
 
-        int initial = (int) (Math.random() * 47);
-        for (int i = 0; i < Spiel.SPIELVORBEI; i++) {
+        if (initial < 35) {
+            int waagerechtBestimmer = (int) (Math.random() * 2);
+            if (waagerechtBestimmer == 0) {
+                waagerecht = false;
+            }
+        }
+        for (int i = 0; i < 7; i++) {
+            if (initial == (5 + 7 * i) || initial == (6 + 7 * i)) {
+                waagerecht = false;
+            }
+        }
+
+        for (int j = 0; j < Spiel.SPIELVORBEI; j++) {
             String stringInitial = "" + initial;
             cellLocation.add(stringInitial);
-            initial++;
+            initial = waagerecht ? initial + 1 : initial + 7;
         }
     }
 
@@ -76,4 +82,5 @@ public class Schiff {
     public void setName(String name) {
         this.name = name;
     }
+
 }

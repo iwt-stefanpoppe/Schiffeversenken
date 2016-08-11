@@ -74,6 +74,9 @@ public class Schiff {
         treffer = einTreffer;
     }
 
+    public ArrayList<String> getCellLocation() {
+        return cellLocation;
+    }
 
     public String getName() {
         return name;
